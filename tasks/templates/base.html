@@ -78,19 +78,19 @@
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link {% if '/tasks' in request.path and '/create' not in request.path and '/completed' not in request.path %}active{% endif %}"
-                            href="/tasks">
+                            href="{% url 'tasks' %}">
                             <i class="bi bi-list-task"></i> Tasks
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/tasks/create' in request.path %}active{% endif %}"
-                            href="/tasks/create">
+                            href="{% url 'create_task' %}">
                             <i class="bi bi-plus-circle"></i> Create task
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/tasks_completed' in request.path %}active{% endif %}"
-                            href="/tasks_completed">
+                            href="{% url 'tasks_completed' %}">
                             <i class="bi bi-check-all"></i> Completed
                         </a>
                     </li>
@@ -99,21 +99,24 @@
                             <i class="bi bi-person-circle"></i> {{ user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right"></i> Log
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i>
+                                    Log
                                     out</a></li>
                         </ul>
                     </li>
                     {% else %}
+                    {% with url_name=request.resolver_match.url_name %}
                     <li class="nav-item">
-                        <a class="nav-link {% if '/signup' in request.path %}active{% endif %}" href="/signup">
+                        <a class="nav-link {% if url_name == 'signup' %}active{% endif %}" href="{% url 'signup' %}">
                             <i class="bi bi-person-plus"></i> Sign Up
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if '/login' in request.path %}active{% endif %}" href="/login">
+                        <a class="nav-link {% if url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
                             <i class="bi bi-box-arrow-in-right"></i> Login
                         </a>
                     </li>
+                    {% endwith %}
                     {% endif %}
                 </ul>
             </div>
@@ -125,7 +128,7 @@
         {% endblock %}
     </main>
 
-    <footer class="text-center py-3 border-top mt-4 fixed-bottom">
+    <footer class="text-center py-3 border-top mt-4">
         <small>&copy; {% now "Y" %} Django CRUD Project</small>
     </footer>
 
